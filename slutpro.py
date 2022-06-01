@@ -1,74 +1,95 @@
 from cmu_graphics import * 
 wall = Group(Rect(0,0,10,400,fill='gray'),
              Rect(390,0,20,400,fill='gray'))
-###platforms 
 
+app.stepPerSecond = 30
 
-floor = Rect(1,400,400,10,fill='black')
-platform1 = Rect(10,270,200,20)
-platform2 = Rect(200,170,200,20)
+ground = Group()
 
-###movibel platforms
-
-moplat1 = Rect(275,370,50,30)
-
-moveplat = Group(moplat1)
-
-###ground 
-ground = Group(floor,
-moveplat,
-platform1,
-platform2)
-
-###
-
-
-
-###gun 
-
-gunhand = Rect(30,370,30,10)
-gun = Group(gunhand,visible=False)
 
 ###playercharacter
 player = Group()
 player.add(Rect(20,360,20,40,fill='midnightBlue'))
+player.isOnStart = True
+###platforms 
+
+
+floor = Rect(0,400,400,10,fill='black')
+platform1 = Rect(0,200,120,20)
+platform2 = Rect(280,80,120,20)
+
+
+###ground 
+ground.add(floor,platform1,platform2)
+
+
+player.isOnStart = True
+###player
+player.dy = 0
+player.dx = 0
+player.jump = -15
+player.gravity = 1
+
+###enemycharacters 
+#enemy1 = 
+
+Enemys = Group()
+
+
+
+
+
+
+
+
 
 
 
 ###Wall border
 def onStep():
+    
     if(player.left < 10):
         player.left = 10
-        player.dy -= 1
-    elif(player.right > 390):
+        
+    if(player.right > 390):
         player.right = 390
-        player.dy -= 1
+        
+    if(player.bottom > 400):
+        player.centerY = 360
+    
+    if(player.)
+    
+
+
+     
 ###gravity     
     player.centerY += player.dy
     if player.hitsShape(ground) != True:
             player.dy += player.gravity
+
+
+
+###platform stuff
+
+
+
+
+
 
     for platform in ground.children:
         if player.hitsShape(platform) and player.bottom < platform.top + (player.dy+7):
             player.bottom = platform.top
             player.dy = 0
         
-        #if(player.hitsShape(platform.bottom) == True):
-            #player.centerY = platform.centerY+10
+        if player.hitsShape(platform) and player.bottom > platform.top + (player.dy+7):
+            player.top = platform.bottom
+            player.dy = 2
         
         
-        
+            
+ ###function
 
-
-###player
-player.dy = 0
-player.dx = 0
-player.speed = 6
-player.gravity = 1
-player.jump = -11
-
-
-
+ 
 
 ###Player Movementqa
 
@@ -76,20 +97,24 @@ player.jump = -11
 def onKeyPress(keys):
         if keys == 'space' and player.hitsShape(ground):
             player.dy = player.jump
-        if(keys == 'q'):
-            gun.centerX = player.centerX
-            gun.centerY = player.centerY
-            player.add(gun)
-       
+      
+        if keys == 'space' and player.hitsShape(wall):
+            player.dy = player.jump 
+            app.stepPerSecond = 12
         
             
 def onKeyHold(keys):
         if('d' in keys):
             player.centerX += 10
             
-        elif('a' in keys):
+        if('a' in keys):
             player.centerX -= 10
+        
+
             
-###Gunshot
+
+
+
+
 
 cmu_graphics.run()
